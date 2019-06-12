@@ -3,8 +3,8 @@
       <i-form ref="formVali" :model="formValidate" :rules="ruleValidate" :label-width="100">
 
         <Form-Item label="客户" prop="priority">
-          <i-select v-model="formValidate.type" style="width:200px" class="mr20" clearable>
-            <i-option v-for="item in customerList" :key="item.value" :value="item.value">{{ item.label }}</i-option>
+          <i-select v-model="formValidate.customerId" style="width:200px" class="mr20" clearable >
+            <i-option v-for="item in customerList" :key="item.id" :value="item.id">{{ item.name }}</i-option>
           </i-select>
         </Form-Item>
 
@@ -14,7 +14,7 @@
 
         <Form-Item label="物料编号" prop="priority">
           <i-select v-model="formValidate.productCode" style="width:200px" class="mr20" clearable>
-            <i-option v-for="item in productCodeList" :key="item.id" :value="item.id">{{ item.productCode }}</i-option>
+            <i-option v-for="item in productCodeList" :key="item.productCode" :value="item.productCode">{{ item.productCode }}</i-option>
           </i-select>
         </Form-Item>
 
@@ -31,12 +31,13 @@
 </template>
 
 <script>
-import { getById, updateOrder } from '@/api/product'
-import { getDictByKey, getNameByCode, PRODUCTTYPE, PRODUCTUNIT  } from '@/libs/dict'
+
+import { loadCustomerList } from '@/api/customer'
+import { loadProductCodeList } from '@/api/product'
+import { getById, updateOrder } from '@/api/order'
 import AccessTree from '@/components/access-tree/access-tree'
 import { mapMutations } from 'vuex'
-import { loadCustomerList } from '@/api/customer'
-import { loadProductList } from '@/api/product'
+
 export default {
   components: {
     AccessTree
@@ -49,7 +50,6 @@ export default {
         productCode:'',
         amount:0,
       },
-      productTypeList: getDictByKey(PRODUCTTYPE),
       customerList:[],
       productCodeList:[],
       ruleValidate: {
@@ -106,7 +106,7 @@ export default {
     loadCustomerList () {
       loadCustomerList().then(({ code, data, message }) => {
         if (code === 200) {
-          this.customerList = data.list;
+          this.customerList = data;
         } else {
           this.$Message.error(message);
         }
@@ -115,7 +115,7 @@ export default {
     loadProductList () {
       loadProductCodeList().then(({ code, data, message }) => {
         if (code === 200) {
-          this.productCodeList = data.list
+          this.productCodeList = data
         } else {
           this.$Message.error(message);
         }

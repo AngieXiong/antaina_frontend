@@ -130,7 +130,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '更新客户',
-          access: ['customer_add']
+          access: ['customer_update']
         },
         component: () => import('@/view/pages/customer/customer_update.vue')
       }
@@ -152,9 +152,29 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '订单查询',
-          access: ['customer_info']
+          access: ['order_info']
         },
         component: () => import('@/view/pages/order/order_info.vue')
+      },
+      {
+        path: 'order_add',
+        name: 'order_add',
+        meta: {
+          icon: 'md-funnel',
+          title: '新增订单',
+          access: ['order_add']
+        },
+        component: () => import('@/view/pages/order/order_add.vue')
+      },
+      {
+        path: 'order_update',
+        name: 'order_update',
+        meta: {
+          icon: 'md-funnel',
+          title: '更新订单',
+          access: ['order_update']
+        },
+        component: () => import('@/view/pages/order/order_update.vue')
       }
     ]
   },

@@ -11,7 +11,7 @@ export const getOrderListWithPage = (data) => {
 
 export const addOrder = (data) => {
   return axios.request({
-    url: '/api/customer/add',
+    url: '/api/order/add',
     method: 'post',
     data: data
   })
@@ -19,7 +19,7 @@ export const addOrder = (data) => {
 
 export const updateOrder = (data) => {
   return axios.request({
-    url: '/api/customer/update',
+    url: '/api/order/update',
     method: 'post',
     data: data
   })

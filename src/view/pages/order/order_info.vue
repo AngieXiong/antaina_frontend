@@ -31,6 +31,11 @@
       <i-table border :columns="columns" :data="formInfo"></i-table>
     </div>
     <div class="text-center mt20">
+      <div class="mb20 fl">
+        <router-link to="/order/order_add">
+          <i-button type="success" icon="ios-add" class="mb20" >新增</i-button>
+        </router-link>
+      </div>
       <Page :total="total" :current="formData.pageNum" :page-size="formData.pageSize" show-elevator show-total @on-change="pageChange"></Page>
     </div>
   </div>
@@ -166,6 +171,34 @@ export default {
                       props: {
                         type: "error",
                         icon: "md-trash",
+                        shape: "circle"
+                      },
+                      style: {
+                        'margin-left': '10px'
+                      },
+                      on: {
+                        click: () => {
+                          this.deleteOrder(params.row.id)
+                        }
+                      }
+                    }
+                  )
+                ]
+              ),
+              h(
+                'Tooltip',
+                {
+                  props: {
+                    content: '出货记录详情',
+                    transfer: true
+                  }
+                },[
+                  h(
+                    "i-button",
+                    {
+                      props: {
+                        type: "info",
+                        icon: "md-list-box",
                         shape: "circle"
                       },
                       style: {

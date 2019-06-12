@@ -11,6 +11,7 @@ import { directive as clickOutside } from 'v-click-outside-x'
 import './index.less'
 import '@/assets/icons/iconfont.css'
 import '@/assets/style/common.less'
+
 // 实际打包时应该不引入mock
 /* eslint-disable */
 if (process.env.NODE_ENV !== 'production') require('@/mock')
