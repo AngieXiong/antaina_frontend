@@ -7,6 +7,8 @@ const sysErrorTypeDict = [ { value: 0, label: '未处理' }, { value: 1, label: 
 const productTypeDict= [ { value: 0, label: '原材料' }, { value: 1, label: '半成品' }, { value: 2, label: '成品' }]
 const productUnitDict= [ { value: 0, label: '片' }, { value: 1, label: '个' }]
 const orderStatusDict= [ { value: 0, label: '未全部交货' }, { value: 1, label: '已完成' }]
+const inputTypeDict= [ { value: 0, label: '采购入库' }, { value: 1, label: '生产入库' }, { value: 2, label: '退货入库' }]
+const outputTypeDict= [ { value: 0, label: '生产出库' }, { value: 1, label: '销售出库' }, { value: 2, label: '退货出库' }]
 
 const dictMAP = {
   transactionType: transactionTypeDict,
@@ -16,7 +18,9 @@ const dictMAP = {
   sysErrorType: sysErrorTypeDict,
   productType : productTypeDict,
   productUnit : productUnitDict,
-  orderStatus:orderStatusDict
+  orderStatus:orderStatusDict,
+  inputType:inputTypeDict,
+  outputType:outputTypeDict
 }
 
 export const TRANSACTIONTYPE = 'transactionType'
@@ -27,6 +31,8 @@ export const SYSERRORTYPE = 'sysErrorType'
 export const PRODUCTTYPE = 'productType'
 export const PRODUCTUNIT = 'productUnit'
 export const ORDERSTATUS = 'orderStatus'
+export const INPUTTYPE = 'inputType'
+export const OUTPUTTYPE = 'outputType'
 
 export const getNameByCode = (value, key) => {
   const dict = dictMAP[key].filter(lang => lang.value === value)

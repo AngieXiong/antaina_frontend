@@ -1,26 +1,27 @@
 <template>
   <div class="platuser-add">
-      <i-form ref="formVali" :model="formValidate" :rules="ruleValidate" :label-width="100">
 
-        <Form-Item label="客户" prop="priority">
-          <i-select v-model="formValidate.customerId" style="width:200px" class="mr20" clearable >
-            <i-option v-for="item in customerList" :key="item.id" :value="item.id">{{ item.name }}</i-option>
-          </i-select>
-        </Form-Item>
+    <i-form ref="formVali" :model="formValidate" :rules="ruleValidate" :label-width="100">
 
-        <Form-Item label="客户物料编号" prop="productName">
-        <i-input v-model="formValidate.customerProductCode" placeholder="请输入客户物料编号..."></i-input>
-        </Form-Item>
+      <Form-Item label="客户" prop="customerId">
+        <i-select v-model="formValidate.customerId" style="width:400px" class="mr20" clearable >
+          <i-option v-for="item in customerList" :key="item.id" :value="item.id">{{ item.name }}</i-option>
+        </i-select>
+      </Form-Item>
 
-        <Form-Item label="物料编号" prop="priority">
-          <i-select v-model="formValidate.productCode" style="width:200px" class="mr20" clearable>
-            <i-option v-for="item in productCodeList" :key="item.productCode" :value="item.productCode">{{ item.productCode }}</i-option>
-          </i-select>
-        </Form-Item>
+      <Form-Item label="客户物料编号" prop="customerProductCode">
+        <i-input v-model="formValidate.customerProductCode" style="width:400px" placeholder="请输入客户物料编号..."></i-input>
+      </Form-Item>
 
-        <Form-Item label="订单量" prop="amount">
-          <InputNumber :min="0" v-model="formValidate.amount"></InputNumber>
-        </Form-Item>
+      <Form-Item label="物料编号" prop="productCode">
+        <i-select v-model="formValidate.productCode" style="width:400px" class="mr20" clearable>
+          <i-option v-for="item in productCodeList" :key="item.productCode" :value="item.productCode">{{ item.productCode }} #  {{ item.productName }} #  {{ item.model }}</i-option>
+        </i-select>
+      </Form-Item>
+
+      <Form-Item label="订单量" prop="amount">
+        <InputNumber :min="0" v-model="formValidate.amount"></InputNumber>
+      </Form-Item>
 
       <Form-Item >
         <i-button size="large" type="primary" @click="handleSubmit('formVali')">提交</i-button>
@@ -31,10 +32,9 @@
 </template>
 
 <script>
-
 import { loadCustomerList } from '@/api/customer'
 import { loadProductCodeList } from '@/api/product'
-import { getById, updateOrder } from '@/api/order'
+import { getById, addOrder } from '@/api/order'
 import AccessTree from '@/components/access-tree/access-tree'
 import { mapMutations } from 'vuex'
 
@@ -69,39 +69,28 @@ export default {
        * 如果是动态路由和带参路由，需要传入query或params字段，用来区别关闭的是参数为多少的页面
        */
       this.closeTag({
-        name: 'order_update',
-        params: {
-          id: this.$route.params.id
-        }
+        name: 'order_add'
       })
     },
     handleSubmit(name) {
       this.$refs[name].validate(valid => {
         if (valid) {
-          updateOrder(this.formValidate).then(({code,data,message}) => {
+          addOrder(this.formValidate).then(({code,data,message}) => {
             if(code === 200){
-              this.$Message.success("更新成功");
+              this.$Message.success("添加成功");
               this.$refs[name].resetFields();
               this.close()
             }else{
               this.$Message.error(message);
             }
           })
+        } else {
+          console.log('false');
         }
       });
     },
     handleReset(name) {
       this.$refs[name].resetFields();
-    },
-    getOrderById () {
-      const id = this.$route.params.id
-      getById({ id }).then(({ code, data, message }) => {
-        this.formValidate = data
-      }).catch(err => {
-        this.$Message.error(err.response.data.message)
-        // 查询失败，关闭本页面
-        this.close()
-      })
     },
     loadCustomerList () {
       loadCustomerList().then(({ code, data, message }) => {
@@ -123,13 +112,8 @@ export default {
     }
   },
   created () {
-    this.getOrderById()
     this.loadCustomerList()
     this.loadProductList()
-  },
-  watch: {
-    // 如果路由发生变化，再次执行该方法
-    '$route': 'getOrderById'
   }
 };
 </script>

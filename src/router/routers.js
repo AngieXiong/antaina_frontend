@@ -130,7 +130,7 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '更新客户',
-          access: ['customer_add']
+          access: ['customer_update']
         },
         component: () => import('@/view/pages/customer/customer_update.vue')
       }
@@ -152,9 +152,29 @@ export default [
         meta: {
           icon: 'md-funnel',
           title: '订单查询',
-          access: ['customer_info']
+          access: ['order_info']
         },
         component: () => import('@/view/pages/order/order_info.vue')
+      },
+      {
+        path: 'order_add',
+        name: 'order_add',
+        meta: {
+          icon: 'md-funnel',
+          title: '新增订单',
+          access: ['order_add']
+        },
+        component: () => import('@/view/pages/order/order_add.vue')
+      },
+      {
+        path: 'order_update',
+        name: 'order_update',
+        meta: {
+          icon: 'md-funnel',
+          title: '更新订单',
+          access: ['order_update']
+        },
+        component: () => import('@/view/pages/order/order_update.vue')
       }
     ]
   },
@@ -201,46 +221,68 @@ export default [
     ]
   },
   {
-    path: '/account',
-    name: 'account',
+    path: '/input',
+    name: 'input',
     meta: {
       icon: 'md-menu',
-      title: '库存管理',
-      access: ['account']
+      title: '物料入库',
+      access: ['input']
     },
     component: Main,
     children: [
       {
-        path: 'account_asset',
-        name: 'account_asset',
+        path: 'storage_input',
+        name: 'storage_input',
         meta: {
           icon: 'md-funnel',
-          title: '库存查询',
-          access: ['account_asset']
+          title: '入库',
+          access: ['storage_input']
         },
-        component: () => import('@/view/pages/account/account_first.vue')
+        component: () => import('@/view/pages/input/storage_input.vue')
       }
     ]
   },
   {
-    path: '/report',
-    name: 'report',
+    path: '/output',
+    name: 'output',
     meta: {
       icon: 'md-menu',
-      title: 'AAA管理',
+      title: '物料出库',
+      access: ['output']
+    },
+    component: Main,
+    children: [
+      {
+        path: 'storage_output',
+        name: 'storage_output',
+        meta: {
+          icon: 'md-funnel',
+          title: '出库',
+          access: ['storage_output']
+        },
+        component: () => import('@/view/pages/output/storage_output.vue')
+      }
+    ]
+  },
+  {
+    path: '/storage',
+    name: 'storage',
+    meta: {
+      icon: 'md-menu',
+      title: '库存',
       access: ['report']
     },
     component: Main,
     children: [
       {
-        path: 'report_user',
-        name: 'report_user',
+        path: 'rpt_storage',
+        name: 'rpt_storage',
         meta: {
           icon: 'md-funnel',
-          title: '用户数据统计',
-          access: ['report_user']
+          title: '库存查询',
+          access: ['rpt_storage']
         },
-        component: () => import('@/view/pages/report/report_user.vue')
+        component: () => import('@/view/pages/report/rpt_storage.vue')
       },
       {
         path: 'report_transaction',
@@ -251,61 +293,6 @@ export default [
           access: ['report_transaction']
         },
         component: () => import('@/view/pages/report/report_transaction.vue')
-      }
-    ]
-  },
-  {
-    path: '/system',
-    name: 'system',
-    meta: {
-      icon: 'md-menu',
-      title: 'BBB管理',
-      access: ['system']
-    },
-    component: Main,
-    children: [
-      {
-        path: 'platform_add',
-        name: 'platform_add',
-        meta: {
-          icon: 'md-funnel',
-          title: '接入平台新增',
-          access: ['platform_add']
-        },
-        component: () => import('@/view/pages/system/platform_add.vue')
-      },
-      {
-        path: 'platform_query',
-        name: 'platform_query',
-        meta: {
-          icon: 'md-funnel',
-          title: '接入平台配置',
-          access: ['platform_query']
-        },
-        component: () => import('@/view/pages/system/platform_query.vue')
-      },
-      {
-        path: 'platform_update/:id',
-        name: 'platform_update',
-        meta: {
-          icon: 'md-funnel',
-          title: '接入平台更新',
-          hideInMenu: true,
-          beforeCloseName: 'before_close_normal',
-          notCache: true,
-          access: ['platform_update']
-        },
-        component: () => import('@/view/pages/system/platform_update.vue')
-      },
-      {
-        path: 'schedule',
-        name: 'schedule',
-        meta: {
-          icon: 'md-funnel',
-          title: '异常信息',
-          access: ['schedule']
-        },
-        component: () => import('@/view/pages/system/schedule.vue')
       }
     ]
   },

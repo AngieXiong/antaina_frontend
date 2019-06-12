@@ -1,32 +1,32 @@
 import axios from '@/libs/request'
 
-export const getOrderListWithPage = (data) => {
+export const getStorageListWithPage = (data) => {
   return axios.request({
-    url: '/api/order/getListWithPage',
+    url: '/api/storage/getListWithPage',
     method: 'get',
     params: data
   })
 }
 
-export const addOrder = (data) => {
+export const addStorage = (data) => {
   return axios.request({
-    url: '/api/order/add',
+    url: '/api/storage/add',
     method: 'post',
     data: data
   })
 }
 
-export const updateOrder = (data) => {
+export const updateStorage = (data) => {
   return axios.request({
-    url: '/api/order/update',
+    url: '/api/storage/update',
     method: 'post',
     data: data
   })
 }
 
-export const deleteOrder = (data) => {
+export const deleteStorage = (data) => {
   return axios.request({
-    url: '/api/order/delete',
+    url: '/api/storage/delete',
     method: 'post',
     params: data
   })
@@ -34,15 +34,15 @@ export const deleteOrder = (data) => {
 
 export const getById = (data) => {
   return axios.request({
-    url: '/api/order/getById',
+    url: '/api/storage/getById',
     method: 'get',
     params: data
   })
 }
 
-export const getDeliveryDetailList = (data) => {
+export const getStorageDetailList = (data) => {
   return axios.request({
-    url: '/api/delivery/getDeliveryListByOrderId',
+    url: '/api/storage/getDeliveryListByOrderId',
     method: 'get',
     params: data
   })
@@ -50,16 +50,16 @@ export const getDeliveryDetailList = (data) => {
 
 export const addAmount = (data) => {
   return axios.request({
-    url: '/api/delivery/add',
+    url: '/api/storage/add',
     method: 'post',
     data: data
   })
 }
 
-export const deleteDelivery = (id) => {
+export const deleteStorageDetail = (id) => {
   let data = {deliveryId: id}
   return axios.request({
-    url: '/api/delivery/delete',
+    url: '/api/storage/delete',
     method: 'post',
     params: data
   })

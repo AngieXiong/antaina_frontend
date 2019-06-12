@@ -1,0 +1,272 @@
+<template>
+  <div>
+
+    <div class="mb20 line-block">
+      <label>起始时间：</label>
+      <Date-picker type="datetimerange" format="yyyy-MM-dd" placeholder="选择日期" style="width: 300px" class="mr20"
+                   @on-change="dateChange" ref="dateModel"></Date-picker>
+    </div>
+
+    <div class="mb20 line-block">
+      <label>物料编号：</label>
+      <i-input v-model="formData.productCode" placeholder="请输入物料编号..." class="mr20" style="width:200px"
+               clearable></i-input>
+    </div>
+
+    <div class="mb20 line-block">
+      <label>出库类型：</label>
+      <i-select v-model="formData.type" style="width:200px" class="mr20" clearable>
+        <i-option v-for="item in outputTypeList" :key="item.value" :value="item.value">{{ item.label }}</i-option>
+      </i-select>
+    </div>
+
+    <div class="mb20 line-block">
+      <i-button type="primary" icon="ios-search" class="mr20" @click="search">搜索</i-button>
+      <i-button icon="ios-refresh" class="mr20" @click="reset">重置</i-button>
+    </div>
+    <div>
+      <i-table border :columns="columns" :data="formInfo"></i-table>
+    </div>
+    <div class="text-center mt20">
+      <div class="mb20 fl">
+        <i-button type="success" icon="ios-add" class="mb20" @click="openOutputModel">新增</i-button>
+      </div>
+      <Page :total="total" :current="formData.pageNum" :page-size="formData.pageSize" show-elevator show-total
+            @on-change="pageChange"></Page>
+    </div>
+
+    <Modal
+      v-model="InputModel"
+      title="新增出库记录"
+      @on-ok="addOutput('formValid')"
+      @on-cancel="cancel">
+
+      <i-form ref="formValid" :model="subFormData" :rules="ruleValidate" :label-width="100">
+        <Form-Item label="物料编号" prop="productCode">
+          <i-select v-model="subFormData.productCode" style="width:400px" class="mr20" clearable>
+            <i-option v-for="item in productCodeList" :key="item.productCode" :value="item.productCode">{{
+              item.productCode }} # {{ item.productName }} # {{ item.model }}
+            </i-option>
+          </i-select>
+        </Form-Item>
+
+        <Form-Item label="出库量" prop="amount">
+          <InputNumber :min="1" v-model="subFormData.amount"></InputNumber>
+        </Form-Item>
+
+        <Form-Item label="出库类型" prop="type">
+          <i-select v-model="subFormData.type" style="width:200px" class="mr20" clearable>
+            <i-option v-for="item in outputTypeList" :key="item.value" :value="item.value">{{ item.label }}</i-option>
+          </i-select>
+        </Form-Item>
+      </i-form>
+
+    </Modal>
+  </div>
+</template>
+
+<script>
+  import {addOutput, deleteOutput, getOutputListWithPage} from "@/api/output"
+  import {loadProductCodeList} from '@/api/product'
+  import {getDictByKey, getNameByCode, OUTPUTTYPE, PRODUCTTYPE, PRODUCTUNIT} from '@/libs/dict'
+
+  export default {
+    components: {},
+    data() {
+      return {
+        InputModel: false,
+        total: 0,
+        formData: {
+          pageNum: 1,
+          pageSize: 10,
+          productCode: '',
+          type: null,
+          startTime: '',
+          endTime: ''
+        },
+        outputTypeList: getDictByKey(OUTPUTTYPE),
+        formInfo: [],
+        columns: [
+          {
+            title: "ID",
+            align: 'center',
+            key: "id"
+          },
+          {
+            title: "物料编号 ",
+            align: 'center',
+            key: "productCode"
+          },
+          {
+            title: "物料名 ",
+            align: 'center',
+            key: "productName"
+          },
+          {
+            title: "物料型号 ",
+            align: 'center',
+            key: "productModel"
+          },
+          {
+            title: "物料类型",
+            align: 'center',
+            render: (h, params) => {
+              return h('div', {}, getNameByCode(params.row.productType, PRODUCTTYPE))
+            }
+          },
+          {
+            title: "计量单位",
+            align: 'center',
+            render: (h, params) => {
+              return h('div', {}, getNameByCode(params.row.productUnit, PRODUCTUNIT))
+            }
+          },
+          {
+            title: "出库量",
+            align: 'center',
+            key: "amount"
+          },
+          {
+            title: "出库类型",
+            align: 'center',
+            render: (h, params) => {
+              return h('div', {}, getNameByCode(params.row.type, OUTPUTTYPE))
+            }
+          },
+          {
+            title: "创建时间",
+            align: 'center',
+            key: "createTime"
+          },
+          {
+            title: "更新时间",
+            align: 'center',
+            key: "updateTime"
+          },
+          {
+            title: "操作",
+            align: 'center',
+            width: '200',
+            render: (h, params) => {
+              return h("div", [
+                h(
+                  'Tooltip',
+                  {
+                    props: {
+                      content: '删除',
+                      transfer: true
+                    }
+                  }, [
+                    h(
+                      "i-button",
+                      {
+                        props: {
+                          type: "error",
+                          icon: "md-trash",
+                          shape: "circle"
+                        },
+                        style: {
+                          'margin-left': '10px'
+                        },
+                        on: {
+                          click: () => {
+                            this.deleteOutput(params.row.id)
+                          }
+                        }
+                      }
+                    )
+                  ]
+                )
+              ]);
+            }
+          }
+        ],
+        productCodeList: [],
+        subFormData: {
+          amount: 1,
+          productCode: '',
+          type: 0
+        },
+        ruleValidate: {
+          productCode: [{required: true, message: "物料编号不能为空", trigger: "blur"}]
+        }
+      };
+    },
+    methods: {
+      search() {
+        this.formData.pageNum = 1;
+        this.getBasicInfo();
+      },
+      reset() {
+        this.formData.productCode = ''
+        this.$refs.dateModel ? this.$refs.dateModel.handleClear() : "";
+        this.search();
+      },
+      dateChange(e) {
+        this.formData.startTime = e[0];
+        this.formData.endTime = e[1];
+      },
+      pageChange(e) {
+        this.formData.pageNum = e;
+        this.getBasicInfo();
+      },
+      getBasicInfo() {
+        getOutputListWithPage(this.formData).then(({code, data, message}) => {
+          if (code === 200) {
+            this.formInfo = data.list;
+            this.total = parseInt(data.total);
+          } else {
+            this.$Message.error(message);
+          }
+        });
+      },
+      openOutputModel() {
+        this.InputModel = true;
+        this.loadProductList();
+      },
+      addOutput(name) {
+        this.$refs[name].validate(valid => {
+          if (valid) {
+            addOutput(this.subFormData).then(({code, data, message}) => {
+              if (code === 200) {
+                this.search();
+                this.$Message.success("添加成功");
+                this.$refs[name].resetFields();
+                this.close();
+              } else {
+                this.$Message.error(message);
+              }
+            })
+          } else {
+            console.log('false');
+          }
+        });
+      },
+      deleteOutput(id) {
+        deleteOutput(id).then(({code, data, message}) => {
+          if (code === 200) {
+            this.search();
+            this.$Message.success(message);
+          } else {
+            this.$Message.error(message);
+          }
+        })
+      },
+      cancel() {
+      },
+      loadProductList() {
+        loadProductCodeList().then(({code, data, message}) => {
+          if (code === 200) {
+            this.productCodeList = data
+          } else {
+            this.$Message.error(message);
+          }
+        });
+      }
+    },
+    created() {
+      this.formData.type = '';
+      this.getBasicInfo();
+    }
+  }
+</script>

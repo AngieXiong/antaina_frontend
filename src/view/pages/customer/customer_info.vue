@@ -155,14 +155,14 @@ export default {
       this.getBasicInfo();
     },
     deleteCustomer(id) {
-      const example = { id: id }
-      deleteCustomer(example).then(({ code, data, message }) => {
-        if (code === 200) {
-          this.$Message.success(message);
-        } else {
-          this.$Message.error(message);
-        }
-      })
+        const example = {id: id}
+        deleteCustomer(example).then(({code, data, message}) => {
+          if (code === 200) {
+            this.$Message.success(message);
+          } else {
+            this.$Message.error(message);
+          }
+        })
       this.search();
     },
     getBasicInfo() {
