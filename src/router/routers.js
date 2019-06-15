@@ -275,14 +275,14 @@ export default [
     component: Main,
     children: [
       {
-        path: 'rpt_storage',
-        name: 'rpt_storage',
+        path: 'report_user',
+        name: 'report_user',
         meta: {
           icon: 'md-funnel',
           title: '库存查询',
-          access: ['rpt_storage']
+          access: ['report_user']
         },
-        component: () => import('@/view/pages/report/rpt_storage.vue')
+        component: () => import('@/view/pages/report/report_user.vue')
       },
       {
         path: 'report_transaction',
