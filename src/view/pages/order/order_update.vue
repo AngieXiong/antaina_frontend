@@ -8,18 +8,21 @@
           </i-select>
         </Form-Item>
 
-        <Form-Item label="客户物料编号" prop="productName">
-        <i-input v-model="formValidate.customerProductCode" placeholder="请输入客户物料编号..."></i-input>
-        </Form-Item>
-
         <Form-Item label="物料编号" prop="priority">
           <i-select v-model="formValidate.productCode" style="width:200px" class="mr20" clearable>
-            <i-option v-for="item in productCodeList" :key="item.productCode" :value="item.productCode">{{ item.productCode }}</i-option>
+            <i-option v-for="item in productCodeList" :key="item.productCode" :value="item.productCode">{{ item.productCode }} #  {{ item.productName }} #  {{ item.model }}</i-option>
           </i-select>
         </Form-Item>
 
         <Form-Item label="订单量" prop="amount">
           <InputNumber :min="0" v-model="formValidate.amount"></InputNumber>
+        </Form-Item>
+
+        <Form-Item label="交期" prop="amount">
+          <div class="mb20 line-block">
+            <Date-picker type="date" format="yyyy-MM-dd" placeholder="选择日期" style="width: 300px" class="mr20"
+                         @on-change="dateChange" ref="dateModel"></Date-picker>
+          </div>
         </Form-Item>
 
       <Form-Item >
@@ -46,15 +49,14 @@ export default {
     return {
       formValidate: {
         customerId: '',
-        customerProductCode:'',
         productCode:'',
         amount:0,
+        deliveryDate: ''
       },
       customerList:[],
       productCodeList:[],
       ruleValidate: {
         customerId: [{ required: true, message: "客户不能为空", trigger: "blur" }],
-        customerProductCode: [{ required: true, message: "客户物料编号不能为空", trigger: "blur" }],
         productCode: [{ required: true, message: "物料编号不能为空", trigger: "blur" }]
       }
     };
@@ -74,6 +76,9 @@ export default {
           id: this.$route.params.id
         }
       })
+    },
+    dateChange(e) {
+      this.formValidate.deliveryDate = e;
     },
     handleSubmit(name) {
       this.$refs[name].validate(valid => {

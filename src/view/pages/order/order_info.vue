@@ -8,12 +8,6 @@
     </div>
 
     <div class="mb20 line-block">
-      <label>客户物料编号：</label>
-      <i-input v-model="formData.customerProductCode" placeholder="物料编号" class="mr20" style="width:200px"
-               clearable></i-input>
-    </div>
-
-    <div class="mb20 line-block">
       <label>物料编号：</label>
       <i-input v-model="formData.productCode" placeholder="物料编号" class="mr20" style="width:200px" clearable></i-input>
     </div>
@@ -69,7 +63,6 @@
         formData: {
           pageNum: 1,
           pageSize: 10,
-          customerProductCode: '',
           productCode: '',
           status: 0,
           startTime: "",
@@ -87,11 +80,6 @@
             title: "客户",
             align: 'center',
             key: "customerName"
-          },
-          {
-            title: "客户物料编号 ",
-            align: 'center',
-            key: "customerProductCode"
           },
           {
             title: "物料编号 ",
@@ -129,6 +117,11 @@
             render: (h, params) => {
               return h('div', {}, getNameByCode(params.row.status, ORDERSTATUS))
             }
+          },
+          {
+            title: "交期",
+            align: 'center',
+            key: "deliveryDate"
           },
           {
             title: "创建时间",

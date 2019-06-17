@@ -1,7 +1,11 @@
 <template>
   <div class="platuser-add">
-
     <i-form ref="formVali" :model="formValidate" :rules="ruleValidate" :label-width="100">
+
+      <Form-Item label="客户物料编号" prop="customerProductCode">
+        <i-input v-model="formValidate.customerProductCode" placeholder="请输入客户物料编号..."></i-input>
+      </Form-Item>
+
       <Form-Item label="物料编号" prop="productCode">
         <i-input v-model="formValidate.productCode" placeholder="请输入物料编号..."></i-input>
       </Form-Item>
@@ -65,9 +69,11 @@ export default {
         type: 0,
         productUnit:0,
         totalAmount: 0,
-        customerId: null
+        customerId: null,
+        customerProductCode:''
       },
       ruleValidate: {
+        customerProductCode: [{ required: true, message: "客户物料编号不能为空", trigger: "blur" }],
         productCode: [{ required: true, message: "物料编号不能为空", trigger: "blur" }],
         productName: [{ required: true, message: "物料名称不能为空", trigger: "blur" }],
         model: [{ required: true, message: "物料型号不能为空", trigger: "blur" }]

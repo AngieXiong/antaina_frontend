@@ -1,10 +1,10 @@
 <template>
   <div>
-    <!--<Form-Item label="客户" prop="customerId">-->
-      <!--<i-select v-model="formValidate.customerId" style="width:400px" class="mr20" clearable >-->
-        <!--<i-option v-for="item in customerList" :key="item.id" :value="item.id">{{ item.name }}</i-option>-->
-      <!--</i-select>-->
-    <!--</Form-Item>-->
+
+    <div class="mb20 line-block">
+      <label>客户物料编号：</label>
+      <i-input v-model="formData.customerProductCode" placeholder="物料编号" class="mr20" style="width:200px" clearable></i-input>
+    </div>
 
     <div class="mb20 line-block">
       <label>客户：</label>
@@ -59,7 +59,8 @@ export default {
         customerId: null,
         productCode: '',
         productName: '',
-        type: 0
+        type: 0,
+        customerProductCode: ''
       },
       formInfo: [],
       productTypeList: getDictByKey(PRODUCTTYPE),
@@ -74,6 +75,11 @@ export default {
           title: "客户名称",
           align: 'center',
           key: "customerName"
+        },
+        {
+          title: "客户物料编号 ",
+          align: 'center',
+          key: "customerProductCode"
         },
         {
           title: "物料编号",
@@ -199,6 +205,7 @@ export default {
     },
     reset() {
       this.formData.name = "";
+      this.formData.customerProductCode='';
       this.$refs.dateModel ? this.$refs.dateModel.handleClear() : "";
       this.search();
     },
