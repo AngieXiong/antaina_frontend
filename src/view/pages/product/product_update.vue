@@ -24,6 +24,13 @@
             <i-option v-for="item in productUnitList" :key="item.value" :value="item.value">{{ item.label }}</i-option>
           </i-select>
         </Form-Item>
+
+        <Form-Item label="客户" prop="customerId">
+          <i-select v-model="formValidate.customerId" style="width:400px" class="mr20" clearable >
+            <i-option v-for="item in customerList" :key="item.id" :value="item.id">{{ item.name }}</i-option>
+          </i-select>
+        </Form-Item>
+
       <Form-Item >
         <i-button size="large" type="primary" @click="handleSubmit('formVali')">提交</i-button>
         <i-button size="large" @click="handleReset('formVali')" style="margin-left: 12px">重置</i-button>
@@ -34,6 +41,7 @@
 
 <script>
 import { getById, updateProduct } from '@/api/product'
+import { loadCustomerList } from '@/api/customer'
 import { getDictByKey, getNameByCode, PRODUCTTYPE, PRODUCTUNIT  } from '@/libs/dict'
 import AccessTree from '@/components/access-tree/access-tree'
 import { mapMutations } from 'vuex'
@@ -52,8 +60,11 @@ export default {
       },
       productTypeList: getDictByKey(PRODUCTTYPE),
       productUnitList: getDictByKey(PRODUCTUNIT),
+      customerList:[],
       ruleValidate: {
-        name: [{ required: true, message: "客户名不能为空", trigger: "blur" }]
+        productCode: [{ required: true, message: "物料编号不能为空", trigger: "blur" }],
+        productName: [{ required: true, message: "物料名称不能为空", trigger: "blur" }],
+        model: [{ required: true, message: "物料型号不能为空", trigger: "blur" }]
       }
     };
   },
@@ -100,10 +111,20 @@ export default {
         // 查询失败，关闭本页面
         this.close()
       })
+    },
+    loadCustomerList () {
+      loadCustomerList().then(({ code, data, message }) => {
+        if (code === 200) {
+          this.customerList = data;
+        } else {
+          this.$Message.error(message);
+        }
+      });
     }
   },
   created () {
-    this.getProductById()
+    this.getProductById();
+    this.loadCustomerList();
   },
   watch: {
     // 如果路由发生变化，再次执行该方法

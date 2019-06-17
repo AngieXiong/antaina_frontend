@@ -1,5 +1,18 @@
 <template>
   <div>
+    <!--<Form-Item label="客户" prop="customerId">-->
+      <!--<i-select v-model="formValidate.customerId" style="width:400px" class="mr20" clearable >-->
+        <!--<i-option v-for="item in customerList" :key="item.id" :value="item.id">{{ item.name }}</i-option>-->
+      <!--</i-select>-->
+    <!--</Form-Item>-->
+
+    <div class="mb20 line-block">
+      <label>客户：</label>
+      <i-select v-model="formData.customerId" style="width:200px" class="mr20" clearable>
+        <i-option v-for="item in customerList" :key="item.id" :value="item.id">{{ item.name }}</i-option>
+      </i-select>
+    </div>
+
     <div class="mb20 line-block">
       <label >物料编号：</label>
       <i-input v-model="formData.productCode" placeholder="物料编号" class="mr20" style="width:200px" clearable ></i-input>
@@ -34,6 +47,7 @@
 
 <script>
 import { getProductWithPage, deleteProduct } from "@/api/product"
+import { loadCustomerList } from '@/api/customer'
 import { getDictByKey, getNameByCode, PRODUCTTYPE, PRODUCTUNIT } from '@/libs/dict'
 export default {
   data() {
@@ -42,17 +56,24 @@ export default {
       formData: {
         pageNum: 1,
         pageSize: 10,
+        customerId: null,
         productCode: '',
         productName: '',
         type: 0
       },
       formInfo: [],
       productTypeList: getDictByKey(PRODUCTTYPE),
+      customerList:[],
       columns: [
         {
           title: "ID",
           align: 'center',
           key: "id"
+        },
+        {
+          title: "客户名称",
+          align: 'center',
+          key: "customerName"
         },
         {
           title: "物料编号",
@@ -203,11 +224,21 @@ export default {
         }
       })
       this.search();
+    },
+    loadCustomerList () {
+      loadCustomerList().then(({ code, data, message }) => {
+        if (code === 200) {
+          this.customerList = data;
+        } else {
+          this.$Message.error(message);
+        }
+      });
     }
   },
   created() {
     this.formData.type = '';
     this.getBasicInfo();
+    this.loadCustomerList();
   }
 }
 </script>

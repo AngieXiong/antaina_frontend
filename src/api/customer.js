@@ -48,27 +48,3 @@ export const loadCustomerList = (data) => {
     params: data
   })
 }
-
-// export const getSendListWithPage = (data) => {
-//   return axios.request({
-//     url: '/api/send/getListWithPage',
-//     method: 'get',
-//     params: data
-//   })
-// }
-//
-// export const getSendDetail = (data) => {
-//   return axios.request({
-//     url: '/api/send/getSendDetail',
-//     method: 'get',
-//     params: data
-//   })
-// }
-//
-// export const getRecordListWithPage = (data) => {
-//   return axios.request({
-//     url: '/api/record/getListWithPage',
-//     method: 'get',
-//     params: data
-//   })
-// }

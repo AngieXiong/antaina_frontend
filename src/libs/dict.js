@@ -9,6 +9,7 @@ const productUnitDict= [ { value: 0, label: '片' }, { value: 1, label: '个' }]
 const orderStatusDict= [ { value: 0, label: '未全部交货' }, { value: 1, label: '已完成' }]
 const inputTypeDict= [ { value: 0, label: '采购入库' }, { value: 1, label: '生产入库' }, { value: 2, label: '退货入库' }]
 const outputTypeDict= [ { value: 0, label: '生产出库' }, { value: 1, label: '销售出库' }, { value: 2, label: '退货出库' }]
+const frequencyDict= [ { value: 0, label: '每小时' }, { value: 1, label: '每天' }, { value: 2, label: '每周' }, { value: 3, label: '每月' }, { value: 4, label: '每年' }]
 
 const dictMAP = {
   transactionType: transactionTypeDict,
@@ -20,7 +21,8 @@ const dictMAP = {
   productUnit : productUnitDict,
   orderStatus:orderStatusDict,
   inputType:inputTypeDict,
-  outputType:outputTypeDict
+  outputType:outputTypeDict,
+  frequency:frequencyDict
 }
 
 export const TRANSACTIONTYPE = 'transactionType'
@@ -33,6 +35,7 @@ export const PRODUCTUNIT = 'productUnit'
 export const ORDERSTATUS = 'orderStatus'
 export const INPUTTYPE = 'inputType'
 export const OUTPUTTYPE = 'outputType'
+export const FREQUENCY ='frequency'
 
 export const getNameByCode = (value, key) => {
   const dict = dictMAP[key].filter(lang => lang.value === value)

@@ -270,30 +270,31 @@ export default [
     meta: {
       icon: 'md-menu',
       title: '库存',
-      access: ['report']
+      access: ['storage']
     },
     component: Main,
     children: [
       {
-        path: 'report_user',
-        name: 'report_user',
+        path: 'rpt_storage_info',
+        name: 'rpt_storage_info',
         meta: {
           icon: 'md-funnel',
           title: '库存查询',
-          access: ['report_user']
+          access: ['rpt_storage_info']
         },
-        component: () => import('@/view/pages/report/report_user.vue')
-      },
-      {
-        path: 'report_transaction',
-        name: 'report_transaction',
-        meta: {
-          icon: 'md-funnel',
-          title: '交易数据统计',
-          access: ['report_transaction']
-        },
-        component: () => import('@/view/pages/report/report_transaction.vue')
+        component: () => import('@/view/pages/storage/rpt_storage_info.vue')
       }
+      // ,
+      // {
+      //   path: 'report_transaction',
+      //   name: 'report_transaction',
+      //   meta: {
+      //     icon: 'md-funnel',
+      //     title: '交易数据统计',
+      //     access: ['report_transaction']
+      //   },
+      //   component: () => import('@/view/pages/report/report_transaction.vue')
+      // }
     ]
   },
   {

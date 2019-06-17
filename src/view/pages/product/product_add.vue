@@ -28,6 +28,12 @@
         </i-select>
       </Form-Item>
 
+      <Form-Item label="客户" prop="customerId">
+        <i-select v-model="formValidate.customerId" style="width:400px" class="mr20" clearable >
+          <i-option v-for="item in customerList" :key="item.id" :value="item.id">{{ item.name }}</i-option>
+        </i-select>
+      </Form-Item>
+
       <Form-Item >
         <i-button size="large" type="primary" @click="handleSubmit('formVali')">提交</i-button>
         <i-button size="large" @click="handleReset('formVali')" style="margin-left: 12px">重置</i-button>
@@ -38,6 +44,7 @@
 
 <script>
 import { addProduct } from '@/api/product'
+import { loadCustomerList } from '@/api/customer'
 import { getDictByKey, getNameByCode, PRODUCTTYPE, PRODUCTUNIT } from '@/libs/dict'
 import AccessTree from '@/components/access-tree/access-tree'
 import { mapMutations } from 'vuex'
@@ -52,7 +59,8 @@ export default {
         productName: '',
         model:'',
         type: 0,
-        productUnit:0
+        productUnit:0,
+        customerId: null
       },
       ruleValidate: {
         productCode: [{ required: true, message: "物料编号不能为空", trigger: "blur" }],
@@ -60,7 +68,8 @@ export default {
         model: [{ required: true, message: "物料型号不能为空", trigger: "blur" }]
       },
       productTypeList: getDictByKey(PRODUCTTYPE),
-      productUnitList:getDictByKey(PRODUCTUNIT)
+      productUnitList:getDictByKey(PRODUCTUNIT),
+      customerList:[]
     };
   },
   methods: {
@@ -95,7 +104,19 @@ export default {
     },
     handleReset(name) {
       this.$refs[name].resetFields();
+    },
+    loadCustomerList () {
+      loadCustomerList().then(({ code, data, message }) => {
+        if (code === 200) {
+          this.customerList = data;
+        } else {
+          this.$Message.error(message);
+        }
+      });
     }
+  },
+  created() {
+    this.loadCustomerList();
   }
 };
 </script>
