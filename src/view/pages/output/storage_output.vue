@@ -122,6 +122,11 @@
             }
           },
           {
+            title: "当前库存",
+            align: 'center',
+            key: "totalAmount"
+          },
+          {
             title: "出库量",
             align: 'center',
             key: "amount"

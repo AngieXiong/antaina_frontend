@@ -106,6 +106,12 @@ export default {
           }
         },
         {
+          title: "当前库存",
+          align: 'center',
+          width: '150',
+          key: "totalAmount"
+        },
+        {
           title: "创建时间",
           align: 'center',
           width: '150',

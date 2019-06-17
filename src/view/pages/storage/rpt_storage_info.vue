@@ -93,6 +93,11 @@
             }
           },
           {
+            title: "当前库存",
+            align: 'center',
+            key: "totalAmount"
+          },
+          {
             title: "入库物料总量",
             align: 'center',
             key: "inputAmount"

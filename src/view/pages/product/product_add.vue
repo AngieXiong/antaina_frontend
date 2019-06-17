@@ -34,6 +34,10 @@
         </i-select>
       </Form-Item>
 
+      <Form-Item label="当前库存" prop="totalAmount">
+        <InputNumber :min="0" v-model="formValidate.totalAmount"></InputNumber>
+      </Form-Item>
+
       <Form-Item >
         <i-button size="large" type="primary" @click="handleSubmit('formVali')">提交</i-button>
         <i-button size="large" @click="handleReset('formVali')" style="margin-left: 12px">重置</i-button>
@@ -60,6 +64,7 @@ export default {
         model:'',
         type: 0,
         productUnit:0,
+        totalAmount: 0,
         customerId: null
       },
       ruleValidate: {
