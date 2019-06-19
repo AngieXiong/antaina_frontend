@@ -59,6 +59,11 @@
         formInfo: [],
         columns: [
           {
+            title: "ID",
+            align: 'center',
+            key: "id"
+          },
+          {
             title: "客户",
             align: 'center',
             key: "customerName"
@@ -79,14 +84,14 @@
             key: "productModel"
           },
           {
-            title: "计量单位",
+            title: "物料类型",
             align: 'center',
             render: (h, params) => {
               return h('div', {}, getNameByCode(params.row.productUnit, PRODUCTTYPE))
             }
           },
           {
-            title: "物料类型",
+            title: "计量单位",
             align: 'center',
             render: (h, params) => {
               return h('div', {}, getNameByCode(params.row.productType, PRODUCTUNIT))
