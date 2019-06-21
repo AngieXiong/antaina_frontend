@@ -35,7 +35,7 @@ export default {
     userAccount: {
       type: String,
       default: '无效账号'
-    },
+    }
   },
   methods: {
     ...mapActions([

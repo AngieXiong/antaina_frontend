@@ -1,6 +1,6 @@
 import axios from 'axios'
 import router from '@/router'
-import { setToken , getToken } from '@/libs/util'
+import { setToken, getToken } from '@/libs/util'
 import { Message } from 'iview'
 
 class HttpRequest {
@@ -38,12 +38,12 @@ class HttpRequest {
       const res = response.data
       return res
     }, error => {
-      if(error.response.status === 401) {
-        setToken('');
+      if (error.response.status === 401) {
+        setToken('')
         router.push({
           name: 'login'
         })
-        return;
+        return
       } else if (error.response.status === 500) {
         Message.error('目标服务器错误!')
       }
@@ -65,7 +65,7 @@ class HttpRequest {
     const instance = axios.create({
       timeout: 5000, // request timeout
       headers: {
-        "Access-Token": getToken()
+        'Access-Token': getToken()
       }
     })
     options = Object.assign(this.getInsideConfig(), options)
