@@ -2,6 +2,10 @@
   <div class="platuser-add">
       <i-form ref="formVali" :model="formValidate" :rules="ruleValidate" :label-width="100">
 
+        <Form-Item label="订单号" prop="orderNo">
+          <i-input v-model="formValidate.orderNo" placeholder="请输入订单号"></i-input>
+        </Form-Item>
+
         <Form-Item label="客户" prop="priority">
           <i-select v-model="formValidate.customerId" style="width:200px" class="mr20" clearable >
             <i-option v-for="item in customerList" :key="item.id" :value="item.id">{{ item.name }}</i-option>
@@ -48,6 +52,7 @@ export default {
   data() {
     return {
       formValidate: {
+        orderNo:'',
         customerId: '',
         productCode:'',
         amount:0,
@@ -56,6 +61,7 @@ export default {
       customerList:[],
       productCodeList:[],
       ruleValidate: {
+        orderNo: [{required: true, message: "订单号不能为空", trigger: "blur"}],
         customerId: [{ required: true, message: "客户不能为空", trigger: "blur" }],
         productCode: [{ required: true, message: "物料编号不能为空", trigger: "blur" }]
       }

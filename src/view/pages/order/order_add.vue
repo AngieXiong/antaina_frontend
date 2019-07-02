@@ -3,6 +3,10 @@
 
     <i-form ref="formVali" :model="formValidate" :rules="ruleValidate" :label-width="100">
 
+      <Form-Item label="订单号" prop="orderNo">
+        <i-input v-model="formValidate.orderNo" placeholder="请输入订单号"></i-input>
+      </Form-Item>
+
       <Form-Item label="客户" prop="customerId">
         <i-select v-model="formValidate.customerId" style="width:400px" class="mr20" clearable>
           <i-option v-for="item in customerList" :key="item.id" :value="item.id">{{ item.name }}</i-option>
@@ -16,6 +20,24 @@
           </i-option>
         </i-select>
       </Form-Item>
+
+      <!--<el-autocomplete-->
+        <!--popper-class="my-autocomplete"-->
+        <!--v-model="state"-->
+        <!--:fetch-suggestions="querySearch"-->
+        <!--placeholder="请输入内容"-->
+        <!--@select="handleSelect">-->
+        <!--<i-->
+          <!--class="el-icon-edit el-input__icon"-->
+          <!--slot="suffix"-->
+          <!--@click="handleIconClick">-->
+        <!--</i>-->
+        <!--<template slot-scope="{ productCodeList }">-->
+          <!--<div class="name">{{ item.productCode }}</div>-->
+          <!--&lt;!&ndash;<span class="addr">{{ item.address }}</span>&ndash;&gt;-->
+          <!--<span class="addr">{{ item.productName }} # {{ item.model }}</span>-->
+        <!--</template>-->
+      <!--</el-autocomplete>-->
 
       <Form-Item label="订单量" prop="amount">
         <InputNumber :min="0" v-model="formValidate.amount"></InputNumber>
@@ -35,13 +57,15 @@
     </i-form>
   </div>
 </template>
-
+<!--<script src="//unpkg.com/vue/dist/vue.js"></script>-->
+<!--<script src="//unpkg.com/element-ui@2.10.0/lib/index.js"></script>-->
 <script>
   import {loadCustomerList} from '@/api/customer'
   import {loadProductCodeList} from '@/api/product'
   import {addOrder, getById} from '@/api/order'
   import AccessTree from '@/components/access-tree/access-tree'
   import { mapMutations } from 'vuex'
+
 
   export default {
     components: {
@@ -50,6 +74,7 @@
     data() {
       return {
         formValidate: {
+          orderNo:'',
           customerId: '',
           productCode: '',
           amount: 0,
@@ -57,7 +82,9 @@
         },
         customerList: [],
         productCodeList: [],
+        state: '',
         ruleValidate: {
+          orderNo: [{required: true, message: "订单号不能为空", trigger: "blur"}],
           customerId: [{required: true, message: "客户不能为空", trigger: "blur"}],
           productCode: [{required: true, message: "物料编号不能为空", trigger: "blur"}]
         }
@@ -67,6 +94,23 @@
       ...mapMutations([
         'closeTag'
       ]),
+      querySearch(queryString, cb) {
+        var productCodeList = this.productCodeList;
+        var results = queryString ? productCodeList.filter(this.createFilter(queryString)) : productCodeList;
+        // 调用 callback 返回建议列表的数据
+        cb(results);
+      },
+      createFilter(queryString) {
+        return (productCodeList) => {
+          return (productCodeList.productCode.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+        };
+      },
+      handleSelect(item) {
+        console.log(item);
+      },
+      handleIconClick(ev) {
+        console.log(ev);
+      },
       close() {
         /**
          * 如果是调用closeTag方法，普通的页面传入的对象参数只需要写name字段即可
@@ -126,8 +170,28 @@
 </script>
 
 <style lang="less" scoped>
+  @import url("//unpkg.com/element-ui@2.10.0/lib/theme-chalk/index.css");
   .platuser-add {
     width: 400px;
     margin: 40px auto;
+  }
+  .my-autocomplete {
+    li {
+      line-height: normal;
+      padding: 7px;
+
+      .name {
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+      .addr {
+        font-size: 12px;
+        color: #b4b4b4;
+      }
+
+      .highlighted .addr {
+        color: #ddd;
+      }
+    }
   }
 </style>

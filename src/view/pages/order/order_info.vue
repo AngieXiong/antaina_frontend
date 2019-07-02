@@ -8,6 +8,11 @@
     </div>
 
     <div class="mb20 line-block">
+      <label>订单号：</label>
+      <i-input v-model="formData.orderNo" placeholder="订单号..." class="mr20" style="width:200px" clearable></i-input>
+    </div>
+
+    <div class="mb20 line-block">
       <label>物料编号：</label>
       <i-input v-model="formData.productCode" placeholder="物料编号" class="mr20" style="width:200px" clearable></i-input>
     </div>
@@ -64,6 +69,7 @@
           pageNum: 1,
           pageSize: 10,
           productCode: '',
+          orderNo:'',
           status: 0,
           startTime: "",
           endTime: ""
@@ -76,6 +82,11 @@
           //   align: 'center',
           //   key: "id"
           // },
+          {
+            title: "订单号",
+            align: 'center',
+            key: "orderNo"
+          },
           {
             title: "客户",
             align: 'center',
