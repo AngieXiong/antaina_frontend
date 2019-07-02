@@ -36,13 +36,13 @@ export default {
       },
       formInfo: [],
       columns: [
-        {
-          title: "账号ID",
-          align: 'center',
-          fixed: 'left',
-          width: '200',
-          key: "id"
-        },
+        // {
+        //   title: "账号ID",
+        //   align: 'center',
+        //   fixed: 'left',
+        //   width: '200',
+        //   key: "id"
+        // },
         {
           title: "客户名称",
           align: 'center',

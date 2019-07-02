@@ -87,11 +87,11 @@
         inputTypeList: getDictByKey(INPUTTYPE),
         formInfo: [],
         columns: [
-          {
-            title: "ID",
-            align: 'center',
-            key: "id"
-          },
+          // {
+          //   title: "ID",
+          //   align: 'center',
+          //   key: "id"
+          // },
           {
             title: "物料编号 ",
             align: 'center',

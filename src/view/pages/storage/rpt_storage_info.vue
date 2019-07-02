@@ -58,11 +58,11 @@
         frequencyList: getDictByKey(FREQUENCY),
         formInfo: [],
         columns: [
-          {
-            title: "ID",
-            align: 'center',
-            key: "id"
-          },
+          // {
+          //   title: "ID",
+          //   align: 'center',
+          //   key: "id"
+          // },
           {
             title: "客户",
             align: 'center',

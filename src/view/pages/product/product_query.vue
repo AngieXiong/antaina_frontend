@@ -69,11 +69,11 @@
         productTypeList: getDictByKey(PRODUCTTYPE),
         customerList: [],
         columns: [
-          {
-            title: "ID",
-            align: 'center',
-            key: "id"
-          },
+          // {
+          //   title: "ID",
+          //   align: 'center',
+          //   key: "id"
+          // },
           {
             title: "客户名称",
             align: 'center',

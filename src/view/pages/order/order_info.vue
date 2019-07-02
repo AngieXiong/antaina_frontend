@@ -71,11 +71,11 @@
         orderStatusList: getDictByKey(ORDERSTATUS),
         formInfo: [],
         columns: [
-          {
-            title: "ID",
-            align: 'center',
-            key: "id"
-          },
+          // {
+          //   title: "ID",
+          //   align: 'center',
+          //   key: "id"
+          // },
           {
             title: "客户",
             align: 'center',
@@ -157,6 +157,7 @@
                         },
                         on: {
                           click: () => {
+                            debugger
                             const id = params.row.id
                             this.$router.push({
                               name: 'order_update',

@@ -41,11 +41,6 @@
         formInfo: [],
         columns: [
           {
-            title: "ID",
-            align: 'center',
-            key: "id"
-          },
-          {
             title: "账号名称",
             align: 'center',
             key: "username"

@@ -46,11 +46,6 @@ export default {
       formInfo: [],
       columns: [
         {
-          title: "ID",
-          align: 'center',
-          key: "id"
-        },
-        {
           title: "用户名称",
           align: 'center',
           key: "name"
