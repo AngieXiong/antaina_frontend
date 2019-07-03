@@ -14,6 +14,11 @@
     </div>
 
     <div class="mb20 line-block">
+      <label>订单号：</label>
+      <i-input v-model="formData.orderNo" placeholder="订单号..." class="mr20" style="width:200px" clearable></i-input>
+    </div>
+
+    <div class="mb20 line-block">
       <label>入库类型：</label>
       <i-select v-model="formData.type" style="width:200px" class="mr20" clearable>
         <i-option v-for="item in inputTypeList" :key="item.value" :value="item.value">{{ item.label }}</i-option>
@@ -42,12 +47,20 @@
       @on-cancel="cancel">
 
       <i-form ref="formValid" :model="subFormData" :rules="ruleValidate" :label-width="100">
-        <Form-Item label="物料编号" prop="productCode">
-          <i-select v-model="subFormData.productCode" style="width:400px" class="mr20" clearable>
-            <i-option v-for="item in productCodeList" :key="item.productCode" :value="item.productCode">{{
-              item.productCode }} # {{ item.productName }} # {{ item.model }}
-            </i-option>
-          </i-select>
+        <!--<Form-Item label="物料编号" prop="productCode">-->
+          <!--<i-select v-model="subFormData.productCode" style="width:400px" class="mr20" clearable>-->
+            <!--<i-option v-for="item in productCodeList" :key="item.productCode" :value="item.productCode">{{-->
+              <!--item.productCode }} # {{ item.productName }} # {{ item.model }}-->
+            <!--</i-option>-->
+          <!--</i-select>-->
+        <!--</Form-Item>-->
+
+        <Form-Item label="物料编号：" prop="orderNo">
+          <i-input v-model="subFormData.productCode" placeholder="请输入物料编号..." class="mr20" style="width:200px" clearable></i-input>
+        </Form-Item>
+
+        <Form-Item label="订单号：" prop="orderNo">
+          <i-input v-model="subFormData.orderNo" placeholder="请输入订单号..." class="mr20" style="width:200px" clearable></i-input>
         </Form-Item>
 
         <Form-Item label="入库量" prop="amount">
@@ -80,6 +93,7 @@
           pageNum: 1,
           pageSize: 10,
           productCode: '',
+          orderNo:'',
           type: null,
           startTime: '',
           endTime: ''
@@ -112,6 +126,21 @@
             align: 'center',
             render: (h, params) => {
               return h('div', {}, getNameByCode(params.row.productType, PRODUCTTYPE))
+            }
+          },
+          {
+            title: "订单号 ",
+            align: 'center',
+            key: "orderNo",
+            render: (h, params) => {
+              return h('div', [
+                h('Icon', {
+                  props: {
+                    type: 'person'
+                  }
+                }),
+                h('strong', params.row.orderNo == null ? '==' : params.row.orderNo == '' ? '==' : params.row.orderNo)
+              ]);
             }
           },
           {
@@ -190,6 +219,7 @@
         subFormData: {
           amount: 1,
           productCode: '',
+          orderNo:'',
           type: 0
         },
         ruleValidate: {
@@ -239,6 +269,7 @@
                 this.$refs[name].resetFields();
                 this.close();
               } else {
+                this.InputModel = true;
                 this.$Message.error(message);
               }
             })
