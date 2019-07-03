@@ -12,10 +12,14 @@
           </i-select>
         </Form-Item>
 
-        <Form-Item label="物料编号" prop="priority">
-          <i-select v-model="formValidate.productCode" style="width:200px" class="mr20" clearable>
-            <i-option v-for="item in productCodeList" :key="item.productCode" :value="item.productCode">{{ item.productCode }} #  {{ item.productName }} #  {{ item.model }}</i-option>
-          </i-select>
+        <!--<Form-Item label="物料编号" prop="priority">-->
+          <!--<i-select v-model="formValidate.productCode" style="width:200px" class="mr20" clearable>-->
+            <!--<i-option v-for="item in productCodeList" :key="item.productCode" :value="item.productCode">{{ item.productCode }} #  {{ item.productName }} #  {{ item.model }}</i-option>-->
+          <!--</i-select>-->
+        <!--</Form-Item>-->
+
+        <Form-Item label="物料编号：" prop="productCode">
+          <i-input v-model="formValidate.productCode" placeholder="请输入物料编号..." class="mr20" style="width:200px" clearable></i-input>
         </Form-Item>
 
         <Form-Item label="订单量" prop="amount">

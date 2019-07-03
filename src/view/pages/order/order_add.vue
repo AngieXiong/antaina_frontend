@@ -13,31 +13,17 @@
         </i-select>
       </Form-Item>
 
-      <Form-Item label="物料编号" prop="productCode">
-        <i-select v-model="formValidate.productCode" style="width:400px" class="mr20" clearable>
-          <i-option v-for="item in productCodeList" :key="item.productCode" :value="item.productCode">{{
-            item.productCode }} # {{ item.productName }} # {{ item.model }}
-          </i-option>
-        </i-select>
-      </Form-Item>
+      <!--<Form-Item label="物料编号" prop="productCode">-->
+        <!--<i-select v-model="formValidate.productCode" style="width:400px" class="mr20" clearable>-->
+          <!--<i-option v-for="item in productCodeList" :key="item.productCode" :value="item.productCode">{{-->
+            <!--item.productCode }} # {{ item.productName }} # {{ item.model }}-->
+          <!--</i-option>-->
+        <!--</i-select>-->
+      <!--</Form-Item>-->
 
-      <!--<el-autocomplete-->
-        <!--popper-class="my-autocomplete"-->
-        <!--v-model="state"-->
-        <!--:fetch-suggestions="querySearch"-->
-        <!--placeholder="请输入内容"-->
-        <!--@select="handleSelect">-->
-        <!--<i-->
-          <!--class="el-icon-edit el-input__icon"-->
-          <!--slot="suffix"-->
-          <!--@click="handleIconClick">-->
-        <!--</i>-->
-        <!--<template slot-scope="{ productCodeList }">-->
-          <!--<div class="name">{{ item.productCode }}</div>-->
-          <!--&lt;!&ndash;<span class="addr">{{ item.address }}</span>&ndash;&gt;-->
-          <!--<span class="addr">{{ item.productName }} # {{ item.model }}</span>-->
-        <!--</template>-->
-      <!--</el-autocomplete>-->
+      <Form-Item label="物料编号：" prop="productCode">
+        <i-input v-model="formValidate.productCode" placeholder="请输入物料编号..." class="mr20" style="width:200px" clearable></i-input>
+      </Form-Item>
 
       <Form-Item label="订单量" prop="amount">
         <InputNumber :min="0" v-model="formValidate.amount"></InputNumber>
