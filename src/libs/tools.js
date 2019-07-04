@@ -213,3 +213,24 @@ export const objEqual = (obj1, obj2) => {
   /* eslint-disable-next-line */
   else return !keysArr1.some(key => obj1[key] != obj2[key])
 }
+
+export const getColumnsTileByArrayToTitleArray = (columns) => {
+  const title = []
+  columns.forEach(column => {
+    title.push(column.title)
+  })
+  return title
+}
+
+export const getColumnsKeyByArrayToKeyArray = (columns) => {
+  const key = []
+  columns.forEach(column => {
+    key.push(column.key)
+  })
+  return key
+}
+
+export default {
+  getColumnsTileByArrayToTitleArray,
+  getColumnsKeyByArrayToKeyArray
+}

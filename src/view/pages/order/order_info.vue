@@ -28,6 +28,11 @@
       <i-button type="primary" icon="ios-search" class="mr20" @click="search">搜索</i-button>
       <i-button icon="ios-refresh" class="mr20" @click="reset">重置</i-button>
     </div>
+
+    <div class="mb20 line-block">
+      <Button :size="buttonSize" :loading="exportLoading" icon="ios-download-outline" type="warning" @click="exportExcel">导出</Button>
+    </div>
+
     <div>
       <i-table border :columns="columns" :data="formInfo"></i-table>
     </div>
@@ -53,9 +58,11 @@
 </template>
 
 <script>
-  import {deleteOrder, getDeliveryDetailList, getOrderListWithPage, addAmount, deleteDelivery} from "@/api/order"
+  import {deleteOrder, getDeliveryDetailList, getOrderListWithPage, addAmount, deleteDelivery, exportOrder} from "@/api/order"
   import {getDictByKey, getNameByCode, ORDERSTATUS} from '@/libs/dict'
   import TableModel from '_c/table-model';
+  import excel from '@/libs/excel'
+  import tools from '@/libs/tools'
 
   export default {
     components: {
@@ -337,7 +344,59 @@
         subFormData: {
           amount: 1,
           orderId: null
-        }
+        },
+        buttonSize: 'large',
+        exportLoading:false,
+        exportHead: [
+          {
+            title: '订单号',
+            key: 'orderNo'
+          },
+          {
+            title: '客户',
+            key: 'customerName'
+          },
+          {
+            title: '物料编号',
+            key: 'productCode'
+          },
+          {
+            title: '物料名',
+            key: 'productName'
+          },
+          {
+            title: '物料型号',
+            key: 'productModel'
+          },
+          {
+            title: '订单量',
+            key: 'totalAmount'
+          },
+          {
+            title: '已出货量',
+            key: 'deliveryAmount'
+          },
+          {
+            title: '未出货量',
+            key: 'remainingAmount'
+          },
+          {
+            title: '状态',
+            key: 'status'
+          },
+          {
+            title: '交期',
+            key: 'deliveryDate'
+          },
+          {
+            title: '创建时间',
+            key: 'createTime'
+          },
+          {
+            title: '更新时间',
+            key: 'updateTime'
+          }
+        ]
       };
     },
     methods: {
@@ -382,15 +441,6 @@
         this.search();
       },
       openModel(row) {
-        // this.modelData = []
-        // const example = {orderId: row.id}
-        // getDeliveryDetailList(example).then(({code, data, message}) => {
-        //   if (code === 200) {
-        //     this.modelData = data;
-        //   } else {
-        //     this.$Message.error(message);
-        //   }
-        // })
         this.loadTableData(row.id)
         this.$refs.TableModel.openModel()
       },
@@ -425,6 +475,27 @@
             this.$Message.error(message);
           }
         })
+      },
+      exportExcel(){
+        this.exportLoading = true
+        const queryModel = this.formData
+        exportOrder({ queryModel }).then(res => {
+          if (res.data.length > 0) {
+            const params = {
+              title: tools.getColumnsTileByArrayToTitleArray(this.exportHead),
+              key: tools.getColumnsKeyByArrayToKeyArray(this.exportHead),
+              data: res.data,
+              autoWidth: true,
+              filename: `订单导出-${(new Date()).valueOf()}`
+            }
+            excel.export_array_to_excel(params)
+          } else {
+            this.$Message.info('表格数据不能为空！')
+          }
+        }).catch(err => {
+          this.$Message.error(err.response.message)
+        })
+        this.exportLoading = false
       },
       cancel() {
       }

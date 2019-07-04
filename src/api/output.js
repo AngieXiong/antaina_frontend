@@ -8,6 +8,14 @@ export const getOutputListWithPage = (data) => {
   })
 }
 
+export const exportOutput = (data) => {
+  return axios.request({
+    url: '/api/output/exportOutput',
+    method: 'get',
+    params: data
+  })
+}
+
 export const deleteOutput = (id) => {
   let data = {id: id}
   return axios.request({

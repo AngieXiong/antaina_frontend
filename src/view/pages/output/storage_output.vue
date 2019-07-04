@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="mb20 line-block">
       <label>起始时间：</label>
       <Date-picker type="datetimerange" format="yyyy-MM-dd" placeholder="选择日期" style="width: 300px" class="mr20"
@@ -29,6 +28,11 @@
       <i-button type="primary" icon="ios-search" class="mr20" @click="search">搜索</i-button>
       <i-button icon="ios-refresh" class="mr20" @click="reset">重置</i-button>
     </div>
+
+    <div class="mb20 line-block">
+      <Button :size="buttonSize" :loading="exportLoading" icon="ios-download-outline" type="warning" @click="exportExcel">导出</Button>
+    </div>
+
     <div>
       <i-table border :columns="columns" :data="formInfo"></i-table>
     </div>
@@ -47,13 +51,6 @@
       @on-cancel="cancel">
 
       <i-form ref="formValid" :model="subFormData" :rules="ruleValidate" :label-width="100">
-        <!--<Form-Item label="物料编号" prop="productCode">-->
-          <!--<i-select v-model="subFormData.productCode" style="width:400px" class="mr20" clearable>-->
-            <!--<i-option v-for="item in productCodeList" :key="item.productCode" :value="item.productCode">{{-->
-              <!--item.productCode }} # {{ item.productName }} # {{ item.model }}-->
-            <!--</i-option>-->
-          <!--</i-select>-->
-        <!--</Form-Item>-->
 
         <Form-Item label="物料编号：" prop="orderNo">
           <i-input v-model="subFormData.productCode" placeholder="请输入物料编号..." class="mr20" style="width:200px" clearable></i-input>
@@ -79,9 +76,11 @@
 </template>
 
 <script>
-  import {addOutput, deleteOutput, getOutputListWithPage} from "@/api/output"
+  import {addOutput, deleteOutput, getOutputListWithPage, exportOutput} from "@/api/output"
   import {loadProductCodeList} from '@/api/product'
   import {getDictByKey, getNameByCode, OUTPUTTYPE, PRODUCTTYPE, PRODUCTUNIT} from '@/libs/dict'
+  import excel from '@/libs/excel'
+  import tools from '@/libs/tools'
 
   export default {
     components: {},
@@ -225,7 +224,55 @@
         },
         ruleValidate: {
           productCode: [{required: true, message: "物料编号不能为空", trigger: "blur"}]
-        }
+        },
+        buttonSize: 'large',
+        exportLoading:false,
+        exportHead: [
+          {
+            title: '物料编号',
+            key: 'productCode'
+          },
+          {
+            title: '物料名',
+            key: 'productName'
+          },
+          {
+            title: '物料型号',
+            key: 'productModel'
+          },
+          {
+            title: '物料类型',
+            key: 'productType'
+          },
+          {
+            title: '计量单位',
+            key: 'productUnit'
+          },
+          {
+            title: '订单号',
+            key: 'orderNo'
+          },
+          {
+            title: '当前库存',
+            key: 'totalAmount'
+          },
+          {
+            title: '出库量',
+            key: 'amount'
+          },
+          {
+            title: '出库类型',
+            key: 'outputType'
+          },
+          {
+            title: '创建时间',
+            key: 'createTime'
+          },
+          {
+            title: '更新时间',
+            key: 'updateTime'
+          }
+        ]
       };
     },
     methods: {
@@ -288,6 +335,27 @@
             this.$Message.error(message);
           }
         })
+      },
+      exportExcel(){
+        this.exportLoading = true
+        const queryModel = this.formData
+        exportOutput({ queryModel }).then(res => {
+          if (res.data.length > 0) {
+            const params = {
+              title: tools.getColumnsTileByArrayToTitleArray(this.exportHead),
+              key: tools.getColumnsKeyByArrayToKeyArray(this.exportHead),
+              data: res.data,
+              autoWidth: true,
+              filename: `出库导出-${(new Date()).valueOf()}`
+            }
+            excel.export_array_to_excel(params)
+          } else {
+            this.$Message.info('表格数据不能为空！')
+          }
+        }).catch(err => {
+          this.$Message.error(err.response.message)
+        })
+        this.exportLoading = false
       },
       cancel() {
       },

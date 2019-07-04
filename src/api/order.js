@@ -8,6 +8,14 @@ export const getOrderListWithPage = (data) => {
   })
 }
 
+export const exportOrder = (data) => {
+  return axios.request({
+    url: '/api/order/exportOrder',
+    method: 'get',
+    params: data
+  })
+}
+
 export const addOrder = (data) => {
   return axios.request({
     url: '/api/order/add',

@@ -8,6 +8,14 @@ export const getInputListWithPage = (data) => {
   })
 }
 
+export const exportInput = (data) => {
+  return axios.request({
+    url: '/api/input/exportInput',
+    method: 'get',
+    params: data
+  })
+}
+
 export const deleteInput = (id) => {
   let data = {id: id}
   return axios.request({
