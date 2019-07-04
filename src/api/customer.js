@@ -9,7 +9,6 @@ export const getCustomerListWithPage = (data) => {
 }
 
 export const addCustomer = (data) => {
-  debugger
   return axios.request({
     url: '/api/customer/add',
     method: 'post',

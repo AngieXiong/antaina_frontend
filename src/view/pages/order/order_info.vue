@@ -175,7 +175,6 @@
                         },
                         on: {
                           click: () => {
-                            debugger
                             const id = params.row.id
                             this.$router.push({
                               name: 'order_update',

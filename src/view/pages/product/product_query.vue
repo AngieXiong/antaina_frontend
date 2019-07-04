@@ -32,6 +32,11 @@
       <i-button type="primary" icon="ios-search" class="mr20" @click="search">搜索</i-button>
       <i-button icon="ios-refresh" class="mr20" @click="reset">重置</i-button>
     </div>
+
+    <div class="mb20 line-block">
+      <Button :size="buttonSize" :loading="exportLoading" icon="ios-download-outline" type="warning" @click="exportExcel">导出</Button>
+    </div>
+
     <div>
       <i-table border :columns="columns" :data="formInfo"></i-table>
     </div>
@@ -48,9 +53,11 @@
 </template>
 
 <script>
-  import {deleteProduct, getProductWithPage} from "@/api/product"
+  import {deleteProduct, getProductWithPage, exportProduct} from "@/api/product"
   import {loadCustomerList} from '@/api/customer'
   import {getDictByKey, getNameByCode, PRODUCTTYPE, PRODUCTUNIT} from '@/libs/dict'
+  import excel from '@/libs/excel'
+  import tools from '@/libs/tools'
 
   export default {
     data() {
@@ -69,11 +76,6 @@
         productTypeList: getDictByKey(PRODUCTTYPE),
         customerList: [],
         columns: [
-          // {
-          //   title: "ID",
-          //   align: 'center',
-          //   key: "id"
-          // },
           {
             title: "客户名称",
             align: 'center',
@@ -198,6 +200,50 @@
               ]);
             }
           }
+        ],
+        buttonSize: 'large',
+        exportLoading:false,
+        exportHead: [
+          {
+            title: "客户名称",
+            key: "customerName"
+          },
+          {
+            title: "客户物料编号 ",
+            key: "customerProductCode"
+          },
+          {
+            title: "物料编号",
+            key: "productCode"
+          },
+          {
+            title: "物料名称",
+            key: "productName"
+          },
+          {
+            title: "型号",
+            key: "productModel"
+          },
+          {
+            title: "物料类型",
+            key: "productType"
+          },
+          {
+            title: "计量单位",
+            key: "productUnit"
+          },
+          {
+            title: "当前库存",
+            key: "totalAmount"
+          },
+          {
+            title: "创建时间",
+            key: "createTime"
+          },
+          {
+            title: "更新时间",
+            key: "updateTime"
+          }
         ]
       };
     },
@@ -249,6 +295,27 @@
             this.$Message.error(message)
           }
         });
+      },
+      exportExcel(){
+        this.exportLoading = true
+        const queryModel = this.formData
+        exportProduct({ queryModel }).then(res => {
+          if (res.data.length > 0) {
+            const params = {
+              title: tools.getColumnsTileByArrayToTitleArray(this.exportHead),
+              key: tools.getColumnsKeyByArrayToKeyArray(this.exportHead),
+              data: res.data,
+              autoWidth: true,
+              filename: `物料列表导出-${(new Date()).valueOf()}`
+            }
+            excel.export_array_to_excel(params)
+          } else {
+            this.$Message.info('表格数据不能为空！')
+          }
+        }).catch(err => {
+          this.$Message.error(err.response.message)
+        })
+        this.exportLoading = false
       }
     },
     created() {

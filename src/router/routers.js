@@ -284,17 +284,6 @@ export default [
         },
         component: () => import('@/view/pages/storage/rpt_storage_info.vue')
       }
-      // ,
-      // {
-      //   path: 'report_transaction',
-      //   name: 'report_transaction',
-      //   meta: {
-      //     icon: 'md-funnel',
-      //     title: '交易数据统计',
-      //     access: ['report_transaction']
-      //   },
-      //   component: () => import('@/view/pages/report/report_transaction.vue')
-      // }
     ]
   },
   {

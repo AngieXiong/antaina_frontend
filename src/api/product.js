@@ -8,6 +8,14 @@ export const getProductWithPage = (data) => {
   })
 }
 
+export const exportProduct = (data) => {
+  return axios.request({
+    url: '/api/product/exportProduct',
+    method: 'get',
+    params: data
+  })
+}
+
 export const addProduct = (data) => {
   return axios.request({
     url: '/api/product/add',

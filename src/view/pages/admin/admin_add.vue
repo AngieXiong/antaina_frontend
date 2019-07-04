@@ -80,7 +80,6 @@ export default {
       })
     },
     handleSubmit(name) {
-      debugger
       this.$refs[name].validate(valid => {
         if (valid) {
           addAdmin(this.formValidate).then(({code,data,message}) => {

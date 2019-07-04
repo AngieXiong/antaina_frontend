@@ -7,3 +7,11 @@ export const getStorageListWithPage = (data) => {
     params: data
   })
 }
+
+export const exportReport = (data) => {
+  return axios.request({
+    url: '/api/storage/exportRptStorage',
+    method: 'post',
+    data: data
+  })
+}
