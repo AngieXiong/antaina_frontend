@@ -21,8 +21,8 @@
         <!--</i-select>-->
       <!--</Form-Item>-->
 
-      <Form-Item label="物料编号：" prop="productCode">
-        <i-input v-model="formValidate.productCode" placeholder="请输入物料编号..." class="mr20" style="width:200px" clearable></i-input>
+      <Form-Item label="客户物料编号：" prop="customerProductCode">
+        <i-input v-model="formValidate.customerProductCode" placeholder="请输入客户物料编号..." class="mr20" style="width:200px" clearable></i-input>
       </Form-Item>
 
       <Form-Item label="订单量" prop="amount">
@@ -62,7 +62,7 @@
         formValidate: {
           orderNo:'',
           customerId: '',
-          productCode: '',
+          customerProductCode: '',
           amount: 0,
           deliveryDate: ''
         },
@@ -72,7 +72,7 @@
         ruleValidate: {
           orderNo: [{required: true, message: "订单号不能为空", trigger: "blur"}],
           customerId: [{required: true, message: "客户不能为空", trigger: "blur"}],
-          productCode: [{required: true, message: "物料编号不能为空", trigger: "blur"}]
+          customerProductCode: [{required: true, message: "客户物料编号不能为空", trigger: "blur"}]
         }
       };
     },
@@ -160,24 +160,5 @@
   .platuser-add {
     width: 400px;
     margin: 40px auto;
-  }
-  .my-autocomplete {
-    li {
-      line-height: normal;
-      padding: 7px;
-
-      .name {
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-      .addr {
-        font-size: 12px;
-        color: #b4b4b4;
-      }
-
-      .highlighted .addr {
-        color: #ddd;
-      }
-    }
   }
 </style>

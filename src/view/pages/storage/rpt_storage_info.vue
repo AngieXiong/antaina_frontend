@@ -8,8 +8,8 @@
     </div>
 
     <div class="mb20 line-block">
-      <label>物料编号：</label>
-      <i-input v-model="formData.productCode" placeholder="物料编号" class="mr20" style="width:200px" clearable></i-input>
+      <label>客户物料编号：</label>
+      <i-input v-model="formData.customerProductCode" placeholder="物料编号" class="mr20" style="width:200px" clearable></i-input>
     </div>
 
     <div class="mb20 line-block">
@@ -57,7 +57,7 @@
         formData: {
           pageNum: 1,
           pageSize: 10,
-          productCode: '',
+          customerProductCode: '',
           type: null,
           startTime: "",
           endTime: ""
@@ -69,6 +69,11 @@
             title: "客户",
             align: 'center',
             key: "customerName"
+          },
+          {
+            title: "客户物料编号 ",
+            align: 'center',
+            key: "customerProductCode"
           },
           {
             title: "物料编号 ",
@@ -141,6 +146,11 @@
             key: "customerName"
           },
           {
+            title: "客户物料编号 ",
+            align: 'center',
+            key: "customerProductCode"
+          },
+          {
             title: "物料编号 ",
             align: 'center',
             key: "productCode"
@@ -196,7 +206,7 @@
         this.getBasicInfo();
       },
       reset() {
-        this.formData.productCode = ''
+        this.formData.customerProductCode = ''
         this.formData.type = null;
         this.$refs.dateModel ? this.$refs.dateModel.handleClear() : "";
         this.search();

@@ -9,14 +9,14 @@
 
     <div class="mb20 line-block">
       <label>物料编号：</label>
-      <i-input v-model="formData.productCode" placeholder="请输入物料编号..." class="mr20" style="width:200px"
+      <i-input v-model="formData.customerProductCode" placeholder="请输入物料编号..." class="mr20" style="width:200px"
                clearable></i-input>
     </div>
 
-    <div class="mb20 line-block">
-      <label>订单号：</label>
-      <i-input v-model="formData.orderNo" placeholder="订单号..." class="mr20" style="width:200px" clearable></i-input>
-    </div>
+    <!--<div class="mb20 line-block">-->
+      <!--<label>订单号：</label>-->
+      <!--<i-input v-model="formData.orderNo" placeholder="订单号..." class="mr20" style="width:200px" clearable></i-input>-->
+    <!--</div>-->
 
     <div class="mb20 line-block">
       <label>入库类型：</label>
@@ -60,13 +60,13 @@
           <!--</i-select>-->
         <!--</Form-Item>-->
 
-        <Form-Item label="物料编号：" prop="orderNo">
-          <i-input v-model="subFormData.productCode" placeholder="请输入物料编号..." class="mr20" style="width:200px" clearable></i-input>
+        <Form-Item label="客户物料编号：" prop="customerProductCode">
+          <i-input v-model="subFormData.customerProductCode" placeholder="请输入客户物料编号..." class="mr20" style="width:200px" clearable></i-input>
         </Form-Item>
 
-        <Form-Item label="订单号：" prop="orderNo">
-          <i-input v-model="subFormData.orderNo" placeholder="请输入订单号..." class="mr20" style="width:200px" clearable></i-input>
-        </Form-Item>
+        <!--<Form-Item label="订单号：" prop="orderNo">-->
+          <!--<i-input v-model="subFormData.orderNo" placeholder="请输入订单号..." class="mr20" style="width:200px" clearable></i-input>-->
+        <!--</Form-Item>-->
 
         <Form-Item label="入库量" prop="amount">
           <InputNumber :min="1" v-model="subFormData.amount"></InputNumber>
@@ -99,8 +99,7 @@
         formData: {
           pageNum: 1,
           pageSize: 10,
-          productCode: '',
-          orderNo:'',
+          customerProductCode: '',
           type: null,
           startTime: '',
           endTime: ''
@@ -108,11 +107,11 @@
         inputTypeList: getDictByKey(INPUTTYPE),
         formInfo: [],
         columns: [
-          // {
-          //   title: "ID",
-          //   align: 'center',
-          //   key: "id"
-          // },
+          {
+            title: "客户物料编号 ",
+            align: 'center',
+            key: "customerProductCode"
+          },
           {
             title: "物料编号 ",
             align: 'center',
@@ -135,21 +134,21 @@
               return h('div', {}, getNameByCode(params.row.productType, PRODUCTTYPE))
             }
           },
-          {
-            title: "订单号 ",
-            align: 'center',
-            key: "orderNo",
-            render: (h, params) => {
-              return h('div', [
-                h('Icon', {
-                  props: {
-                    type: 'person'
-                  }
-                }),
-                h('strong', params.row.orderNo == null ? '==' : params.row.orderNo == '' ? '==' : params.row.orderNo)
-              ]);
-            }
-          },
+          // {
+          //   title: "订单号 ",
+          //   align: 'center',
+          //   key: "orderNo",
+          //   render: (h, params) => {
+          //     return h('div', [
+          //       h('Icon', {
+          //         props: {
+          //           type: 'person'
+          //         }
+          //       }),
+          //       h('strong', params.row.orderNo == null ? '==' : params.row.orderNo == '' ? '==' : params.row.orderNo)
+          //     ]);
+          //   }
+          // },
           {
             title: "计量单位",
             align: 'center',
@@ -225,16 +224,19 @@
         productCodeList: [],
         subFormData: {
           amount: 1,
-          productCode: '',
-          orderNo:'',
+          customerProductCode: '',
           type: 0
         },
         ruleValidate: {
-          productCode: [{required: true, message: "物料编号不能为空", trigger: "blur"}]
+          customerProductCode: [{required: true, message: "客户物料编号不能为空", trigger: "blur"}]
         },
         buttonSize: 'large',
         exportLoading:false,
         exportHead: [
+          {
+            title: '客户物料编号',
+            key: 'productCode'
+          },
           {
             title: '物料编号',
             key: 'productCode'
@@ -254,10 +256,6 @@
           {
             title: '计量单位',
             key: 'productUnit'
-          },
-          {
-            title: '订单号',
-            key: 'orderNo'
           },
           {
             title: '当前库存',
@@ -288,7 +286,7 @@
         this.getBasicInfo();
       },
       reset() {
-        this.formData.productCode = ''
+        this.formData.customerProductCode = ''
         this.$refs.dateModel ? this.$refs.dateModel.handleClear() : "";
         this.search();
       },

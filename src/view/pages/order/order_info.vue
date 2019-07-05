@@ -13,8 +13,8 @@
     </div>
 
     <div class="mb20 line-block">
-      <label>物料编号：</label>
-      <i-input v-model="formData.productCode" placeholder="物料编号" class="mr20" style="width:200px" clearable></i-input>
+      <label>客户物料编号：</label>
+      <i-input v-model="formData.customerProductCode" placeholder="物料编号" class="mr20" style="width:200px" clearable></i-input>
     </div>
 
     <div class="mb20 line-block">
@@ -75,7 +75,7 @@
         formData: {
           pageNum: 1,
           pageSize: 10,
-          productCode: '',
+          customerProductCode: '',
           orderNo:'',
           status: 0,
           startTime: "",
@@ -98,6 +98,11 @@
             title: "客户",
             align: 'center',
             key: "customerName"
+          },
+          {
+            title: "客户物料编号 ",
+            align: 'center',
+            key: "customerProductCode"
           },
           {
             title: "物料编号 ",
@@ -277,16 +282,16 @@
         ],
         modelData: [],
         modelColumns: [
-          {
-            title: "ID",
-            align: 'center',
-            key: "id"
-          },
-          {
-            title: "主表ID",
-            align: 'center',
-            key: "orderId"
-          },
+          // {
+          //   title: "ID",
+          //   align: 'center',
+          //   key: "id"
+          // },
+          // {
+          //   title: "主表ID",
+          //   align: 'center',
+          //   key: "orderId"
+          // },
           {
             title: " 出货量",
             align: 'center',
@@ -354,6 +359,10 @@
           {
             title: '客户',
             key: 'customerName'
+          },
+          {
+            title: "客户物料编号 ",
+            key: "customerProductCode"
           },
           {
             title: '物料编号',
@@ -433,6 +442,7 @@
         deleteOrder(example).then(({code, data, message}) => {
           if (code === 200) {
             this.$Message.success(message);
+            this.search();
           } else {
             this.$Message.error(message);
           }

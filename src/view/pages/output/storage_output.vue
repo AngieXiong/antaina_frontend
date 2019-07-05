@@ -7,8 +7,8 @@
     </div>
 
     <div class="mb20 line-block">
-      <label>物料编号：</label>
-      <i-input v-model="formData.productCode" placeholder="请输入物料编号..." class="mr20" style="width:200px"
+      <label>客户物料编号：</label>
+      <i-input v-model="formData.customerProductCode" placeholder="请输入客户物料编号..." class="mr20" style="width:200px"
                clearable></i-input>
     </div>
 
@@ -16,7 +16,6 @@
       <label>订单号：</label>
       <i-input v-model="formData.orderNo" placeholder="订单号..." class="mr20" style="width:200px" clearable></i-input>
     </div>
-
     <div class="mb20 line-block">
       <label>出库类型：</label>
       <i-select v-model="formData.type" style="width:200px" class="mr20" clearable>
@@ -52,8 +51,8 @@
 
       <i-form ref="formValid" :model="subFormData" :rules="ruleValidate" :label-width="100">
 
-        <Form-Item label="物料编号：" prop="orderNo">
-          <i-input v-model="subFormData.productCode" placeholder="请输入物料编号..." class="mr20" style="width:200px" clearable></i-input>
+        <Form-Item label="客户物料编号：" prop="customerProductCode">
+          <i-input v-model="subFormData.customerProductCode" placeholder="请输入客户物料编号..." class="mr20" style="width:200px" clearable></i-input>
         </Form-Item>
 
         <Form-Item label="订单号：" prop="orderNo">
@@ -91,7 +90,7 @@
         formData: {
           pageNum: 1,
           pageSize: 10,
-          productCode: '',
+          customerProductCode: '',
           orderNo:'',
           type: null,
           startTime: '',
@@ -100,12 +99,11 @@
         outputTypeList: getDictByKey(OUTPUTTYPE),
         formInfo: [],
         columns: [
-          // {
-          //   title: "ID",
-          //   align: 'center',
-          //   key: "id"
-          // },
-
+          {
+            title: "客户物料编号 ",
+            align: 'center',
+            key: "customerProductCode"
+          },
           {
             title: "物料编号 ",
             align: 'center',
@@ -218,16 +216,20 @@
         productCodeList: [],
         subFormData: {
           amount: 1,
-          productCode: '',
+          customerProductCode: '',
           orderNo:'',
           type: 0
         },
         ruleValidate: {
-          productCode: [{required: true, message: "物料编号不能为空", trigger: "blur"}]
+          customerProductCode: [{required: true, message: "客户物料编号不能为空", trigger: "blur"}]
         },
         buttonSize: 'large',
         exportLoading:false,
         exportHead: [
+          {
+            title: '客户物料编号',
+            key: 'customerProductCode'
+          },
           {
             title: '物料编号',
             key: 'productCode'
@@ -281,7 +283,7 @@
         this.getBasicInfo();
       },
       reset() {
-        this.formData.productCode = ''
+        this.formData.customerProductCode = ''
         this.$refs.dateModel ? this.$refs.dateModel.handleClear() : "";
         this.search();
       },

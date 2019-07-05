@@ -2,7 +2,7 @@ import axios from '@/libs/request'
 
 export const getStorageListWithPage = (data) => {
   return axios.request({
-    url: '/api/storage/getListWithPage',
+    url: '/api/report/getListWithPage',
     method: 'get',
     params: data
   })
@@ -10,8 +10,8 @@ export const getStorageListWithPage = (data) => {
 
 export const exportReport = (data) => {
   return axios.request({
-    url: '/api/storage/exportRptStorage',
-    method: 'post',
-    data: data
+    url: '/api/report/exportRptStorage',
+    method: 'get',
+    params: data
   })
 }
