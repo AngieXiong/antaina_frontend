@@ -94,14 +94,14 @@
             title: "物料类型",
             align: 'center',
             render: (h, params) => {
-              return h('div', {}, getNameByCode(params.row.productUnit, PRODUCTTYPE))
+              return h('div', {}, getNameByCode(params.row.productType, PRODUCTTYPE))
             }
           },
           {
             title: "计量单位",
             align: 'center',
             render: (h, params) => {
-              return h('div', {}, getNameByCode(params.row.productType, PRODUCTUNIT))
+              return h('div', {}, getNameByCode(params.row.productUnit, PRODUCTUNIT))
             }
           },
           {

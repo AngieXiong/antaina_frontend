@@ -146,16 +146,16 @@
             align: 'center',
             key: "deliveryDate"
           },
-          {
-            title: "创建时间",
-            align: 'center',
-            key: "createTime"
-          },
-          {
-            title: "更新时间",
-            align: 'center',
-            key: "updateTime"
-          },
+          // {
+          //   title: "创建时间",
+          //   align: 'center',
+          //   key: "createTime"
+          // },
+          // {
+          //   title: "更新时间",
+          //   align: 'center',
+          //   key: "updateTime"
+          // },
           {
             title: "操作",
             align: 'center',

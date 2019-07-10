@@ -23,7 +23,7 @@
         </Form-Item>
 
         <Form-Item label="订单量" prop="amount">
-          <InputNumber :min="0" v-model="formValidate.amount"></InputNumber>
+          <InputNumber :min="-9999999" v-model="formValidate.amount"></InputNumber>
         </Form-Item>
 
         <Form-Item label="交期" prop="amount">
